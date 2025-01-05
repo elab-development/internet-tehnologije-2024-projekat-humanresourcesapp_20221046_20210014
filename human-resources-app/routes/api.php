@@ -11,18 +11,13 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-      // ✅ Salary Routes
-      Route::prefix('salaries')->group(function () {
-        Route::get('/', [SalaryController::class, 'index']); 
-        Route::get('/{salary}', [SalaryController::class, 'show']);
-        Route::post('/', [SalaryController::class, 'store']); 
-        Route::put('/{salary}', [SalaryController::class, 'update']); 
-        Route::delete('/{salary}', [SalaryController::class, 'destroy']);
-    });
     // Worker-specific salary route
     Route::get('my-salary', [SalaryController::class, 'mySalary']); 
 
-    // ✅ Bonus Routes
+    // Salary Routes
+    Route::apiResource('salaries', SalaryController::class);
+
+    // Bonus Routes
     Route::prefix('bonuses')->group(function () {
         Route::get('/', [BonusController::class, 'index']);
         Route::get('/{bonus}', [BonusController::class, 'show']); 
@@ -33,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Worker-specific bonus route
     Route::get('my-bonuses', [BonusController::class, 'myBonuses']); 
 
-    // ✅ Payslip Routes
+    // Payslip Routes
     Route::prefix('payslips')->group(function () {
         Route::get('/', [PayslipController::class, 'index']); 
         Route::get('/{payslip}', [PayslipController::class, 'show']); 
@@ -43,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Worker-specific payslip route
     Route::get('my-payslips', [PayslipController::class, 'myPayslips']); 
 
-    // ✅ User Routes
+    // User Routes
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']); 
         Route::delete('/{user}', [UserController::class, 'destroy']); 
