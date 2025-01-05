@@ -20,23 +20,35 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
             'isHr' => 'required|boolean',
+            'position' => 'required_if:isHr,false|string|max:255', // Only required if not HR
+            'gender' => 'required|in:male,female,other',
+            'date_of_birth' => 'required|date|before:today',
+            'contract_start_date' => 'required|date|before_or_equal:today'
         ]);
-
+    
+        // If the user is an HR, force the position to 'Human Resources'
+        $position = $validated['isHr'] ? 'Human Resources' : $validated['position'];
+    
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'isHr' => $validated['isHr'],
+            'position' => $position,
+            'gender' => $validated['gender'],
+            'date_of_birth' => $validated['date_of_birth'],
+            'contract_start_date' => $validated['contract_start_date']
         ]);
-
+    
         $role = $user->isHr ? 'HR Worker' : 'Worker';
-        $message = "✅ $role registered successfully.";
-
+        $message = "✅ $role registered successfully with the position of $position.";
+    
         return response()->json([
             'message' => $message,
             'user' => new UserResource($user)
         ], 201);
     }
+    
 
     /**
      * Log in an existing user.

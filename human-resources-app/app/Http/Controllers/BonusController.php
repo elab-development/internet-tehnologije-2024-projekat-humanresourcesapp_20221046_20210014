@@ -67,7 +67,7 @@ class BonusController extends Controller
         return new BonusResource($bonus);
     }
 
-    // HR Worker can delete a bonus
+    // HR Worker can delete a bonus and its related payslip
     public function destroy(Bonus $bonus)
     {
         $user = Auth::user();
@@ -75,8 +75,16 @@ class BonusController extends Controller
             return response()->json(['error' => 'Unauthorized! Only HR can delete bonuses.'], 403);
         }
 
+        // Find and delete the related payslip
+        $payslip = $bonus->payslips()->first();
+        if ($payslip) {
+            $payslip->delete();
+        }
+
+        // Delete the bonus itself
         $bonus->delete();
-        return response()->json(['message' => 'Bonus deleted successfully']);
+
+        return response()->json(['message' => 'Bonus and related payslip deleted successfully']);
     }
 
     // Worker can view their own bonuses

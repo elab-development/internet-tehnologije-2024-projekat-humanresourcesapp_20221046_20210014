@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'isHr',
         'gender',
+        'position',
         'date_of_birth',
         'contract_start_date'
     ];

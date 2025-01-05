@@ -20,7 +20,9 @@ class UserController extends Controller
         return UserResource::collection(User::all());
     }
 
-    // HR Worker can delete a user
+    /**
+     * HR Worker can delete a user along with all related data (payslips, bonuses, salaries).
+     */
     public function destroy(User $user)
     {
         $userAuth = Auth::user();
@@ -28,8 +30,15 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized! Only HR can delete users.'], 403);
         }
 
+        // Delete related payslips, bonuses, and salaries before deleting the user
+        $user->payslips()->delete();
+        $user->bonuses()->delete();
+        $user->salaries()->delete();
+
+        // Delete the user after related data deletion
         $user->delete();
-        return response()->json(['message' => 'User deleted successfully']);
+
+        return response()->json(['message' => 'User and all related data deleted successfully']);
     }
 
     // Worker can update their own profile

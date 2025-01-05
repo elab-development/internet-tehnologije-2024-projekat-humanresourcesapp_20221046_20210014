@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [BonusController::class, 'index']);
         Route::get('/{bonus}', [BonusController::class, 'show']); 
         Route::post('/', [BonusController::class, 'store']); 
-        Route::put('/{bonus}', [BonusController::class, 'update']); 
+        Route::patch('/{bonus}', [BonusController::class, 'update']); 
         Route::delete('/{bonus}', [BonusController::class, 'destroy']); 
     });
     // Worker-specific bonus route
@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{user}', [UserController::class, 'destroy']); 
     });
     // Worker-specific user route
-    Route::put('profile/update', [UserController::class, 'update']); 
+    Route::patch('profile/update', [UserController::class, 'update']); 
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

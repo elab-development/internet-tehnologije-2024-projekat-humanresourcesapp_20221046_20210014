@@ -67,7 +67,7 @@ class SalaryController extends Controller
         return new SalaryResource($salary);
     }
 
-    // HR can delete a salary
+    // HR Worker can delete a salary and its related payslip
     public function destroy(Salary $salary)
     {
         $user = Auth::user();
@@ -75,8 +75,16 @@ class SalaryController extends Controller
             return response()->json(['error' => 'Unauthorized! Only HR can delete salaries.'], 403);
         }
 
+        // Find and delete the related payslip
+        $payslip = $salary->payslips()->first();
+        if ($payslip) {
+            $payslip->delete();
+        }
+
+        // Delete the salary itself
         $salary->delete();
-        return response()->json(['message' => 'Salary deleted successfully']);
+
+        return response()->json(['message' => 'Salary and related payslip deleted successfully']);
     }
 
     // Worker can view only their own salary

@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->enum('gender', ['male', 'female', 'other'])->after('isHr');
             $table->date('date_of_birth')->after('gender');
             $table->date('contract_start_date')->after('date_of_birth');
+            $table->string('position')->after('contract_start_date');
 
             $table->dropColumn(['email_verified_at']);
             $table->dropTimestamps();

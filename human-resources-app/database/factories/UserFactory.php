@@ -26,14 +26,31 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+
+        $itPositions = [
+            'Software Developer',
+            'DevOps Engineer',
+            'QA Tester',
+            'System Administrator',
+            'Database Administrator',
+            'Network Engineer',
+            'Project Manager',
+            'Business Analyst',
+            'UX/UI Designer',
+            'Scrum Master'
+        ];
+
+        $isHr = $this->faker->boolean;
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
-            'isHr' => $this->faker->boolean,
+            'isHr' => $isHr,
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
             'date_of_birth' => $this->faker->dateTimeBetween('1960-01-01', '2001-12-31')->format('Y-m-d'), // Anything between 1960 and 2001
             'contract_start_date' => $this->faker->dateTimeBetween('2009-01-01', '2023-12-31')->format('Y-m-d'), // Between 2009 and 2024
+            'position' => $isHr ? 'Human Resources' : $this->faker->randomElement($itPositions),
             'remember_token' => Str::random(10),
         ];
     }

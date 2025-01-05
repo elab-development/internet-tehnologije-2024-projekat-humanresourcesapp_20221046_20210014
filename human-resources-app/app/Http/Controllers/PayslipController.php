@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payslip;
+use Carbon\Carbon;
+use App\Models\Salary;
+use App\Models\Bonus;
 use Illuminate\Http\Request;
 use App\Http\Resources\PayslipResource;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +39,7 @@ class PayslipController extends Controller
     }
 
     /**
-     * HR can create a payslip
+     * HR can create a payslip only if Salary, Bonus, and Payslip match the same month
      */
     public function store(Request $request)
     {
@@ -49,28 +52,38 @@ class PayslipController extends Controller
             'user_id' => 'required|exists:users,id',
             'salary_id' => 'required|exists:salaries,id',
             'bonus_id' => 'required|exists:bonuses,id',
-            'issue_date' => 'required|date',
-            'total_amount' => 'required|numeric',
         ]);
 
-        $salary = Salary::find($validated['salary_id']);
-        $bonus = Bonus::find($validated['bonus_id']);
-        $issueDate = Carbon::parse($validated['issue_date']);
+        // Fetch the salary and bonus records
+        $salary = Salary::findOrFail($validated['salary_id']);
+        $bonus = Bonus::findOrFail($validated['bonus_id']);
 
+        // Ensure salary and bonus belong to the same month and year
         $salaryDate = Carbon::parse($salary->date_issued);
         $bonusDate = Carbon::parse($bonus->date_awarded);
 
-        if (
-            $salaryDate->format('Y-m') !== $issueDate->format('Y-m') ||
-            $bonusDate->format('Y-m') !== $issueDate->format('Y-m')
-        ) {
+        if ($salaryDate->format('Y-m') !== $bonusDate->format('Y-m')) {
             return response()->json([
-                'error' => 'The Salary, Bonus, and Payslip must belong to the same month and year.'], 422);
+                'error' => 'The Salary and Bonus must belong to the same month and year.'
+            ], 422);
         }
 
-        $payslip = Payslip::create($validated);
+        // Automatically calculate the total amount and set the issue date from salary/bonus
+        $totalAmount = $salary->amount + $bonus->amount;
+        $issueDate = $salaryDate->endOfMonth()->format('Y-m-d'); // Ensuring the end of the month
+
+        // Create the payslip using calculated values
+        $payslip = Payslip::create([
+            'user_id' => $validated['user_id'],
+            'salary_id' => $validated['salary_id'],
+            'bonus_id' => $validated['bonus_id'],
+            'issue_date' => $issueDate,  // Date auto-derived from salary/bonus
+            'total_amount' => $totalAmount
+        ]);
+
         return new PayslipResource($payslip);
     }
+
 
     /**
      * HR can delete a payslip
