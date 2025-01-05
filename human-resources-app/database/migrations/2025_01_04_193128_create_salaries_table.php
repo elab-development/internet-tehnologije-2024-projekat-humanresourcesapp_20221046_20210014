@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 10, 2);
-            $table->string('currency'); 
-            $table->string('payment_frequency'); 
+            $table->enum('currency', ['USD', 'EUR', 'GBP', 'CAD', 'AUD'])->default('USD');
+            $table->enum('payment_frequency', ['monthly', 'yearly'])->default('monthly');
         });
     }
 
