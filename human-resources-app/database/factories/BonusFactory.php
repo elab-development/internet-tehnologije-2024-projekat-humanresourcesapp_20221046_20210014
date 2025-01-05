@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Bonus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
 
 class BonusFactory extends Factory
 {
@@ -12,11 +13,19 @@ class BonusFactory extends Factory
 
     public function definition()
     {
+        $bonusReasons = [
+            'Yearly Performance Bonus',
+            'Employee of the Month',
+            'Holiday Bonus',
+            'Project Completion Reward',
+            'Exceptional Work Quality'
+        ];
+
         return [
             'user_id' => User::factory(),
             'amount' => $this->faker->randomFloat(2, 100, 1000),
-            'reason' => $this->faker->sentence,
-            'date_awarded' => $this->faker->dateTimeBetween('2024-01-01', '2024-12-31')->format('Y-m-d'),
+            'reason' => $this->faker->randomElement($bonusReasons),
+            'date_awarded' => Carbon::create(2024, $this->faker->numberBetween(1, 12), 1)->endOfMonth()->format('Y-m-d')
         ];
     }
 }

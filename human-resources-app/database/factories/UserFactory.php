@@ -32,8 +32,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'isHr' => $this->faker->boolean,
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
-            'date_of_birth' => $this->faker->dateTimeBetween('2024-01-01', '2024-12-31')->format('Y-m-d'),
-            'contract_start_date' => $this->faker->dateTimeBetween('2024-01-01', '2024-12-31')->format('Y-m-d'),
+            'date_of_birth' => $this->faker->dateTimeBetween('1960-01-01', '2001-12-31')->format('Y-m-d'), // Anything between 1960 and 2001
+            'contract_start_date' => $this->faker->dateTimeBetween('2009-01-01', '2023-12-31')->format('Y-m-d'), // Between 2009 and 2024
             'remember_token' => Str::random(10),
         ];
     }

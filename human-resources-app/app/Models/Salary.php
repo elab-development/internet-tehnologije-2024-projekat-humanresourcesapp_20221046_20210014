@@ -14,7 +14,7 @@ class Salary extends Model
         'user_id',
         'amount',
         'currency',
-        'payment_frequency' 
+        'date_issued'
     ];
 
     public $timestamps = false;
