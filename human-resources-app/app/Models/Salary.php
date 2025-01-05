@@ -11,10 +11,18 @@ class Salary extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'amount',
         'currency',
         'payment_frequency' 
     ];
+
+    public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function payslips()
     {

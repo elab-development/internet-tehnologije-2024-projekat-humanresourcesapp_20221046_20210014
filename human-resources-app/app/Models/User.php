@@ -21,12 +21,27 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'isHr',
+        'gender',
+        'date_of_birth',
+        'contract_start_date'
     ];
+
+    public $timestamps = false;
 
     public function payslips()
     {
         return $this->hasMany(Payslip::class);
+    }
+
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class);
+    }
+
+    public function bonuses()
+    {
+        return $this->hasMany(Bonus::class);
     }
 
     /**

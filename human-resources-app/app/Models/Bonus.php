@@ -11,10 +11,18 @@ class Bonus extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'amount',
         'reason',       
         'date_awarded'
     ];
+
+    public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function payslips()
     {
