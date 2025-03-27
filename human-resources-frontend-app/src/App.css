@@ -586,16 +586,29 @@ body {
 }
 
 .footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #fff;
   padding: 10px 20px;
-  text-align: center;
-  color: #000;
   font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+}
+
+.footer-left {
+  /* Ensure there's enough space for the weather widget */
+  display: flex;
+  align-items: center;
+}
+
+.footer-right {
+  text-align: right;
 }
 
 .footer-email {
   color: #D6232A;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .footer-email:hover {
@@ -939,4 +952,16 @@ body {
 
 .profile-value {
   color: #555;
+}
+
+.small-weather {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.temp {
+  font-weight: bold;
 }
