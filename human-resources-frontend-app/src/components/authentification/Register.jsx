@@ -10,7 +10,7 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    isHr: false,
+    isHr: false,        // boolean in state
     position: '',
     gender: 'male',
     date_of_birth: '',
@@ -19,7 +19,7 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
@@ -28,9 +28,18 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+
     try {
-      await axios.post('http://127.0.0.1:8000/api/register', formData);
-      alert("Register successful! Relocting to the login page...");
+      // Transform data before sending:
+      const finalData = {
+        ...formData,
+        isHr: formData.isHr ? 1 : 0, // Convert boolean to 1 or 0
+        position: formData.isHr ? 'Human Resources' : formData.position,
+      };
+
+      await axios.post('http://127.0.0.1:8000/api/register', finalData);
+
+      alert('Register successful! Redirecting to the login page...');
       navigate('/');
     } catch (error) {
       setError(error.response?.data?.message || 'Registration failed. Check your inputs.');
@@ -40,6 +49,7 @@ const Register = () => {
   return (
     <div className="auth-container">
       <img src={logo} alt="HR App Logo" className="logo" />
+
       <form onSubmit={handleRegister}>
         <input
           type="text"
@@ -79,6 +89,7 @@ const Register = () => {
           <span className="checkmark"></span>
         </label>
 
+        {/* Only show position field if NOT HR */}
         {!formData.isHr && (
           <input
             type="text"
@@ -89,21 +100,20 @@ const Register = () => {
             onChange={handleChange}
           />
         )}
-        
-          <div className="select-wrapper">
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
 
+        <div className="select-wrapper">
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
 
         <label className="label-date">Date of Birth:</label>
         <input
