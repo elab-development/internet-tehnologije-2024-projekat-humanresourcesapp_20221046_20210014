@@ -19,7 +19,8 @@ const NavMenu = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('userData');
     sessionStorage.removeItem('token');
-    navigate('/', { replace: true });
+
+    window.location.href = '/'
   };
 
   return (
@@ -27,8 +28,8 @@ const NavMenu = () => {
       <div className="navmenu-left">
         {location.pathname !== '/landing' && (
           <div className="navmenu-left-icons">
-            <FaArrowLeft className="nav-icon" onClick={() => navigate(-1)} />
-            <FaHome className="nav-icon" onClick={() => navigate('/landing')} />
+            <FaArrowLeft className="nav-icon" onClick={() => window.history.go(-1)} />
+            <FaHome className="nav-icon" onClick={() =>  window.location.href = '/landing'} />
           </div>
         )}
       </div>
