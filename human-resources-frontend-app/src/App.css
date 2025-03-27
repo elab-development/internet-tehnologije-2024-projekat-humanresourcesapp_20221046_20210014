@@ -480,3 +480,105 @@ body {
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
+
+.navmenu-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navmenu-left,
+.navmenu-center,
+.navmenu-right {
+  display: flex;
+  align-items: center;
+}
+
+.navmenu-left {
+  flex: 1;
+}
+
+.navmenu-center {
+  flex: 2;
+  justify-content: center;
+}
+
+.navmenu-right {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* Left side icons: only visible on pages other than /landing */
+.navmenu-left-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-icon {
+  font-size: 1.8rem;
+  color: #D6232A;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.nav-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Logo styling */
+.navmenu-logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+/* User info styling */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #D6232A;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.user-position {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Logout icon styling */
+.logout-icon {
+  font-size: 1.4rem;
+  color: #D6232A;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logout-icon:hover {
+  transform: scale(1.1);
+}

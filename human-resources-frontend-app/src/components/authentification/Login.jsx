@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import logo from '../../images/logo.png';
+import logo from '../images/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ const Login = () => {
       sessionStorage.setItem('token', token);
 
       alert("Login successful! Welcome to HR Dashboard app!");
-      navigate('/landing');
+      window.location.href = '/landing';
     } catch (error) {
       setError(error.response?.data?.error || 'Login failed.');
     }

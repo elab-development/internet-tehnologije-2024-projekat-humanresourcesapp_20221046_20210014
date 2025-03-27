@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/authentification/Login';
 import Register from './components/authentification/Register';
 import Landing from './components/pages/Landing';
+import NavMenu from './components/reusable-components/NavMenu';
 import './App.css';
 
 const App = () => {
@@ -18,10 +19,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
+        {isAuthenticated && <NavMenu />}
       <Routes>
         <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/landing" />} />
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/landing" />} />
-        <Route path="/landing" element={isAuthenticated ? <Landing /> : <Navigate to="/" />} />
+       <Route path="/landing" element={isAuthenticated ? <Landing /> : <Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
