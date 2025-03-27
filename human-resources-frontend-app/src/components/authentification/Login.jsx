@@ -24,8 +24,14 @@ const Login = () => {
       sessionStorage.setItem('userData', JSON.stringify(userData));
       sessionStorage.setItem('token', token);
 
+      console.log(userData);
+
       alert("Login successful! Welcome to HR Dashboard app!");
-      window.location.href = '/landing';
+      if(userData.role === 'HR Worker'){
+        window.location.href = '/landing';
+      }else{
+        window.location.href = '/landing-worker';
+      }
     } catch (error) {
       setError(error.response?.data?.error || 'Login failed.');
     }

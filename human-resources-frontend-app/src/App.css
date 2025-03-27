@@ -789,3 +789,152 @@ body {
   color: #D6232A; /* Accent color */
 }
 
+.worker-landing-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* User info card */
+.user-info-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  margin-bottom: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.user-info-card h2 {
+  margin-bottom: 15px;
+  color: #D6232A;
+}
+
+.user-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.user-info p {
+  flex: 1 1 200px;
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.user-info span {
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+/* Cards grid */
+.worker-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Each data card */
+.worker-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.worker-card:hover {
+  transform: translateY(-5px);
+}
+
+.worker-card h3 {
+  color: #D6232A;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+}
+
+.worker-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.worker-card li {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.worker-card li:last-child {
+  border-bottom: none;
+}
+
+.worker-card li strong {
+  color: #000;
+}
+
+.centered-card {
+  max-width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  transition: transform 0.3s ease;
+}
+
+.centered-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.info-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.info-card-title {
+  color: #D6232A;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.95rem;
+}
+
+.profile-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-value {
+  color: #555;
+}

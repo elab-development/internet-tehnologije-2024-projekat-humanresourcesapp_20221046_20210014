@@ -7,6 +7,7 @@ import Bonuses from './components/pages/Bonuses';
 import Payrolls from './components/pages/Payrolls';
 import Salaries from './components/pages/Salaries';
 import Users from './components/pages/Users';
+import LandingWorker from './components/pages/LandingWorker';
 import MyProfile from './components/pages/MyProfile';
 import NavMenu from './components/reusable-components/NavMenu';
 import Footer from './components/reusable-components/Footer';
@@ -51,7 +52,7 @@ const App = () => {
           </>
         ) : (
           // If authenticated but not HR Worker, redirect to landing or a "Not Authorized" page.
-          isAuthenticated && <Route path="*" element={<Navigate to="/landing" />} />
+          isAuthenticated && <Route path="/landing-worker" element={<LandingWorker />} />
         )}
       </Routes>
       {isAuthenticated && <Footer />}
