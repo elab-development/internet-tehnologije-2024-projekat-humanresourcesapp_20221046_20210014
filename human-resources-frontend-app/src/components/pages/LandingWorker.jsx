@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../reusable-components/Loading';
 
 const LandingRegularWorker = () => {
   const [salary, setSalary] = useState(null);
   const [bonuses, setBonuses] = useState([]);
   const [payslips, setPayslips] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const userDataStr = sessionStorage.getItem('userData');
   const userData = userDataStr ? JSON.parse(userDataStr) : {};
@@ -29,6 +31,8 @@ const LandingRegularWorker = () => {
         setSalary(salaryRes.data.data);
         setBonuses(bonusRes.data.data);
         setPayslips(payslipRes.data.data);
+
+        setLoading(false);
       } catch (err) {
         console.error('Failed to fetch worker data:', err);
       }
@@ -37,9 +41,11 @@ const LandingRegularWorker = () => {
     fetchData();
   }, []);
 
+  if (loading) return <Loading />;
+
   return (
     <div className="landing-container">
-      <div className="profile-card centered-card">
+      <div className="profile-card centered-card" style={{maxWidth:"4500px", width:"103%"}}>
         <h2 className="profile-title">Welcome, {userData.name}</h2>
         <div className="profile-details">
           <div className="profile-row">
@@ -62,7 +68,7 @@ const LandingRegularWorker = () => {
       </div>
 
       <div className="info-cards-grid">
-        <div className="info-card modern-card">
+        <div className="info-card modern-card" style={{height:"200px", width:"350px"}}>
         <h3 className="info-card-title">My Salaries</h3>
         {salary && salary.length > 0 ? (
             salary.map((s, index) => (
@@ -76,7 +82,7 @@ const LandingRegularWorker = () => {
         )}
         </div>
 
-        <div className="info-card modern-card">
+        <div className="info-card modern-card" style={{height:"200px", width:"400px", marginLeft:"-25px"}}>
           <h3 className="info-card-title">My Bonuses</h3>
           {bonuses.length > 0 ? (
             bonuses.map(b => (
@@ -90,7 +96,7 @@ const LandingRegularWorker = () => {
           )}
         </div>
 
-        <div className="info-card modern-card">
+        <div className="info-card modern-card" style={{height:"200px", width:"350px"}}>
           <h3 className="info-card-title">My Payslips</h3>
           {payslips.length > 0 ? (
             payslips.map(p => (

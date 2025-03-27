@@ -11,6 +11,7 @@ import LandingWorker from './components/pages/LandingWorker';
 import MyProfile from './components/pages/MyProfile';
 import NavMenu from './components/reusable-components/NavMenu';
 import Footer from './components/reusable-components/Footer';
+import Breadcrumbs from './components/reusable-components/Breadcrumbs';
 import './App.css';
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
   return (
     <BrowserRouter>
       {isAuthenticated && <NavMenu />}
+      {isAuthenticated && <Breadcrumbs />}
       <Routes>
         <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/landing" />} />
         <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/landing" />} />
