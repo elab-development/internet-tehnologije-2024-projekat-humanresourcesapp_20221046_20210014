@@ -627,3 +627,165 @@ body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.table-container {
+  width: 100%;
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+/* Controls row: filter dropdown + search bar side by side */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Filter dropdown styling */
+.table-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-filter-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.table-filter-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Search bar styling */
+.table-search input {
+  padding: 8px;
+  width: 220px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* Table styling */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Roboto', sans-serif;
+}
+
+.data-table th,
+.data-table td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Header styling + sorting cursor */
+.data-table th {
+  background-color: #f4f4f4;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.data-table th:hover {
+  background-color: #eaeaea;
+}
+
+/* Row styling */
+.data-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.data-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.profile-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #D6232A; /* Accent color */
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.profile-row:last-child {
+  border-bottom: none;
+}
+
+.profile-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-value {
+  color: #666;
+}
+
+/* Modern card reusable class (if you want to share styling across components) */
+.modern-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.table-page-container {
+  max-width: 1200px;         /* Constrains width on large screens */
+  margin: 40px auto;         /* Centers the container */
+  background-color: #fff;    /* White background for the card */
+  padding: 20px;             /* Adequate padding */
+  border-radius: 12px;       /* Rounded corners */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.table-page-title {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #D6232A; /* Accent color */
+}
+
