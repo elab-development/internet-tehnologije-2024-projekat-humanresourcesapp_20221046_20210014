@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/authentification/Login';
+import Register from './components/authentification/Register';
+import Landing from './components/pages/Landing';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!sessionStorage.getItem('userData'));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAuthenticated(!!sessionStorage.getItem('userData'));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/landing" />} />
+        <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/landing" />} />
+        <Route path="/landing" element={isAuthenticated ? <Landing /> : <Navigate to="/" />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
