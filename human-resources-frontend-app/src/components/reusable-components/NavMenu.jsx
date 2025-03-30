@@ -26,10 +26,10 @@ const NavMenu = () => {
   return (
     <div className="navmenu-container">
       <div className="navmenu-left">
-        {location.pathname !== '/landing' && (
+        {(location.pathname !== '/landing' && location.pathname !== '/landing-worker') && (
           <div className="navmenu-left-icons">
             <FaArrowLeft className="nav-icon" onClick={() => window.history.go(-1)} />
-            <FaHome className="nav-icon" onClick={() =>  window.location.href = '/landing'} />
+            <FaHome className="nav-icon" onClick={() =>  {userData.role === 'HR Worker' ? window.location.href = '/landing' : window.location.href = '/landing-worker'}} />
           </div>
         )}
       </div>
