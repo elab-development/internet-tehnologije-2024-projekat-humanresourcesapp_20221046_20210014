@@ -965,3 +965,28 @@ body {
 .temp {
   font-weight: bold;
 }
+
+.breadcrumb-container {
+  background-color: white;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.breadcrumb-container a.breadcrumb-link {
+  color: black;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.breadcrumb-container a.breadcrumb-link:last-of-type {
+  color: #D6232A;
+  font-weight: bold;
+}
+
+.breadcrumb-container .breadcrumb-separator {
+  margin: 0 8px;
+  vertical-align: middle;
+  color: black;
+}
+
