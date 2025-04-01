@@ -6,7 +6,6 @@ import logo from '../images/logo.png'; // Adjust as needed
 
 const NavMenu = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Retrieve user data from sessionStorage
   const userDataStr = sessionStorage.getItem('userData');
