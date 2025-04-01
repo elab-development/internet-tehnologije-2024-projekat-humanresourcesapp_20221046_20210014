@@ -22,8 +22,8 @@ const Breadcrumbs = () => {
 
   // Build breadcrumb links
   const breadcrumbs = pathParts.map((part, index) => {
-    const to = '/' + pathParts.slice(0, index + 1).join('/');
-    const name = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
+    const to = '/' + pathParts.slice(0, index + 1).join('/'); // 'payrolls' --> '/payrolls/'
+    const name = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' '); // '/payrolls/' --> ' Payrolls '
 
     return (
       <span key={to} className="breadcrumb-segment">
