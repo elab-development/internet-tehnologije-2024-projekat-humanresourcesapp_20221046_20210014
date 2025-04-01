@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { FaArrowLeft, FaHome, FaPowerOff } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
 import logo from '../images/logo.png'; // Adjust as needed
