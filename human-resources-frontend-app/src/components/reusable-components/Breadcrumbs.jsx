@@ -12,6 +12,12 @@ const Breadcrumbs = () => {
   }
 
   // Split and filter the path
+  // link pre splita: "/payrolls"
+  // link posle splita: [ "", "payrolls"]
+  // Boolean --> logicki tip vrednosti tj. true ili false
+  // Truthy values --> sve koje nisu falsey
+  // False values --> "", false, null, undefined
+  // nakon filtera: ["payrolls"]
   const pathParts = pathname.split('/').filter(Boolean);
 
   // Build breadcrumb links
