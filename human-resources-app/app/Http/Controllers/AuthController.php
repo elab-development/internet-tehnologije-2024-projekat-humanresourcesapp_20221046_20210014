@@ -20,13 +20,13 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
             'isHr' => 'required|boolean',
-            'position' => 'required_if:isHr,false|string|max:255', // Only required if not HR
+            'position' => 'required_if:isHr,false|string|max:255', // potrebno samo ako nije HR
             'gender' => 'required|in:male,female,other',
             'date_of_birth' => 'required|date|before:today',
             'contract_start_date' => 'required|date|before_or_equal:today'
         ]);
     
-        // If the user is an HR, force the position to 'Human Resources'
+        // Ako je korisnik HR, postavi mu poziciju 'Human Resources
         $position = $validated['isHr'] ? 'Human Resources' : $validated['position'];
     
         $user = User::create([
