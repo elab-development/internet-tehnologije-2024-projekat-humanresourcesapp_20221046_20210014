@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SalaryController extends Controller
 {
-    // Only HR can view all salaries
+    // Samo HR može da vidi sve plate
     public function index()
     {
         $user = Auth::user();
@@ -20,7 +20,7 @@ class SalaryController extends Controller
         return SalaryResource::collection(Salary::all());
     }
 
-    // HR can view a specific salary
+    // HR moze videti specif. platu
     public function show(Salary $salary)
     {
         $user = Auth::user();
@@ -31,7 +31,7 @@ class SalaryController extends Controller
         return new SalaryResource($salary);
     }
 
-    // HR can create a salary
+    // HR moze da kreira plate
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -50,7 +50,7 @@ class SalaryController extends Controller
         return new SalaryResource($salary);
     }
 
-    // HR can update a salary
+    // HR moze updateovati platu
     public function update(Request $request, Salary $salary)
     {
         $user = Auth::user();
@@ -67,7 +67,7 @@ class SalaryController extends Controller
         return new SalaryResource($salary);
     }
 
-    // HR Worker can delete a salary and its related payslip
+    // HR moze obrisati platu i njen platni listic
     public function destroy(Salary $salary)
     {
         $user = Auth::user();
@@ -75,19 +75,19 @@ class SalaryController extends Controller
             return response()->json(['error' => 'Unauthorized! Only HR can delete salaries.'], 403);
         }
 
-        // Find and delete the related payslip
+        
         $payslip = $salary->payslips()->first();
         if ($payslip) {
             $payslip->delete();
         }
 
-        // Delete the salary itself
+        
         $salary->delete();
 
         return response()->json(['message' => 'Salary and related payslip deleted successfully']);
     }
 
-    // Worker can view only their own salary
+    // Worker moze da vidi samo svoju platu
     public function mySalary()
     {
         $user = Auth::user();
