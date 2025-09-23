@@ -95,7 +95,7 @@ const Bonuses = () => {
           amount: form.amount === '' ? null : Number(form.amount),
           reason: form.reason || null,
         };
-        await axios.patch(`${API}/bonuses/${editing.id}`, payload, { headers: headers() });
+        await axios.patch(`${API}/bonuses/${editing.id}/updateReasonAndAmount`, payload, { headers: headers() });
       } else {
         // CREATE: keep full payload (user, amount, reason, date)
         const payload = {

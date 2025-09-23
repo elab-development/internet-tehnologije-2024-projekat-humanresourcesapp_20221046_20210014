@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [BonusController::class, 'index']);
         Route::get('/{bonus}', [BonusController::class, 'show']); 
         Route::post('/', [BonusController::class, 'store']); 
-        Route::patch('/{bonus}', [BonusController::class, 'update']); 
+        Route::patch('/{bonus}/updateReasonAndAmount', [BonusController::class, 'update']); 
         Route::delete('/{bonus}', [BonusController::class, 'destroy']); 
     });
     // Worker-specific bonus route
