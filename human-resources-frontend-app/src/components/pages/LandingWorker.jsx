@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from '../reusable-components/Loading';
+import useRandomQuote from '../custom-hooks/useRandomQuote'; // <-- add
 
 const LandingRegularWorker = () => {
   const [salary, setSalary] = useState(null);
   const [bonuses, setBonuses] = useState([]);
   const [payslips, setPayslips] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { quote, author, loading: quoteLoading, refresh } = useRandomQuote(); // <-- add
 
   const userDataStr = sessionStorage.getItem('userData');
   const userData = userDataStr ? JSON.parse(userDataStr) : {};
@@ -26,12 +29,9 @@ const LandingRegularWorker = () => {
           axios.get('http://127.0.0.1:8000/api/my-payslips', { headers })
         ]);
 
-        console.log(salaryRes, bonusRes, payslipRes);
-
         setSalary(salaryRes.data.data);
         setBonuses(bonusRes.data.data);
         setPayslips(payslipRes.data.data);
-
         setLoading(false);
       } catch (err) {
         console.error('Failed to fetch worker data:', err);
@@ -67,19 +67,41 @@ const LandingRegularWorker = () => {
         </div>
       </div>
 
+      {/* --- Quote box (fits in the highlighted space) --- */}
+      <div className="modern-card" style={{
+        width: "103%",
+        margin: "12px 0 4px",
+        padding: "14px 18px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12
+      }}>
+        <div style={{maxWidth: '82%'}}>
+          <h3 className="info-card-title" style={{marginBottom: 6}}>Today’s Work Quote</h3>
+          <p style={{fontStyle: 'italic', color: '#d1d1d1'}}>
+            {quoteLoading ? 'Fetching inspiration…' : `“${quote}”`}
+          </p>
+          {!quoteLoading && <p style={{marginTop: 4, color: '#9ea0a3'}}>— {author}</p>}
+        </div>
+        <button className="btn btn-ghost" onClick={refresh} title="Another one">
+          New Quote
+        </button>
+      </div>
+
       <div className="info-cards-grid">
         <div className="info-card modern-card" style={{height:"200px", width:"350px"}}>
-        <h3 className="info-card-title">My Salaries</h3>
-        {salary && salary.length > 0 ? (
+          <h3 className="info-card-title">My Salaries</h3>
+          {salary && salary.length > 0 ? (
             salary.map((s, index) => (
-            <div key={s.id || index} className="profile-row">
+              <div key={s.id || index} className="profile-row">
                 <span className="profile-value">{s.amount} {s.currency}</span>
                 <span className="profile-label">{s.date_issued}</span>
-            </div>
+              </div>
             ))
-        ) : (
+          ) : (
             <p>No salary data available.</p>
-        )}
+          )}
         </div>
 
         <div className="info-card modern-card" style={{height:"200px", width:"400px", marginLeft:"-25px"}}>
