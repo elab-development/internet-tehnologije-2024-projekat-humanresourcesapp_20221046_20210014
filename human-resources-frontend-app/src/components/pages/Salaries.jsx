@@ -64,9 +64,9 @@ const Salaries = () => {
     setEditing(row);
     setForm({
       user_id: row.user_id || '',
-      amount: row.amount,
-      currency: row.currency,
-      date_issued: row.date_issued,
+      amount: row.amount ?? '',
+      currency: row.currency ?? 'USD',
+      date_issued: row.date_issued || '',
     });
     setOpen(true);
   };
@@ -75,9 +75,25 @@ const Salaries = () => {
     e.preventDefault();
     try {
       if (editing) {
-        await axios.put(`${API}/salaries/${editing.id}`, form, { headers: headers() });
+        // EDIT: only amount & currency are allowed and PATCH must be used
+        const payload = {
+          amount: form.amount === '' ? null : Number(form.amount),
+          currency: form.currency || null,
+        };
+        await axios.patch(
+          `${API}/salaries/${editing.id}/updateCurrencyAndAmount`,
+          payload,
+          { headers: headers() }
+        );
       } else {
-        await axios.post(`${API}/salaries`, form, { headers: headers() });
+        // CREATE: full payload
+        const payload = {
+          user_id: form.user_id,
+          amount: Number(form.amount),
+          currency: form.currency,
+          date_issued: form.date_issued,
+        };
+        await axios.post(`${API}/salaries`, payload, { headers: headers() });
       }
       setOpen(false);
       await fetchAll();
@@ -95,6 +111,8 @@ const Salaries = () => {
       console.error(e);
     }
   };
+
+  const isEditing = !!editing;
 
   return loading ? (
     <p style={{ color: '#fff', textAlign: 'center' }}>Loading...</p>
@@ -122,7 +140,7 @@ const Salaries = () => {
         <div className="modal">
           <div className="modal-card">
             <div className="modal-header">
-              <h3>{editing ? 'Edit Salary' : 'Create Salary'}</h3>
+              <h3>{isEditing ? 'Edit Salary' : 'Create Salary'}</h3>
               <button className="icon-btn" onClick={() => setOpen(false)}>✕</button>
             </div>
 
@@ -131,7 +149,8 @@ const Salaries = () => {
               <select
                 value={form.user_id}
                 onChange={e => setForm({ ...form, user_id: e.target.value })}
-                required
+                required={!isEditing}
+                disabled={isEditing}
               >
                 <option value="">Select user</option>
                 {users.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
@@ -158,12 +177,13 @@ const Salaries = () => {
                 type="date"
                 value={form.date_issued}
                 onChange={e => setForm({ ...form, date_issued: e.target.value })}
-                required
+                required={!isEditing}
+                disabled={isEditing}
               />
 
               <div className="modal-actions">
                 <button type="button" className="btn btn-ghost" onClick={() => setOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary">{editing ? 'Save' : 'Create'}</button>
+                <button type="submit" className="btn btn-primary">{isEditing ? 'Save' : 'Create'}</button>
               </div>
             </form>
           </div>
