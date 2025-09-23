@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{payslip}', [PayslipController::class, 'show']); 
         Route::post('/', [PayslipController::class, 'store']); 
         Route::delete('/{payslip}', [PayslipController::class, 'destroy']); 
+        Route::get('/export/csv', [PayslipController::class, 'exportCsv']);
     });
     // Worker-specific payslip route
     Route::get('my-payslips', [PayslipController::class, 'myPayslips']); 
