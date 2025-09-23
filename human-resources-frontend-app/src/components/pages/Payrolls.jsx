@@ -144,18 +144,51 @@ const Payrolls = () => {
     }
   };
 
+  const exportCsv = async () => {
+    try {
+      const res = await axios.get(`${API}/payslips/export/csv`, {
+        headers: headers(),
+        responseType: 'blob',
+      });
+
+      // Try to extract filename from header; fallback if missing
+      const cd = res.headers['content-disposition'] || '';
+      const match = /filename="?([^"]+)"?/i.exec(cd);
+      const filename = match?.[1] || `payslips_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('Failed to export CSV:', e);
+      alert('Could not export CSV. Please try again.');
+    }
+  };
+
   return loading ? (
     <p style={{ color: '#fff', textAlign: 'center' }}>Loading...</p>
   ) : (
     <div className="table-page-container">
       <h2 className="table-page-title">Payrolls</h2>
 
+      {/* Toolbar with Create + Export */}
+      <div className="table-controls" style={{ marginBottom: 8 }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+          <button className="btn btn-primary" onClick={openCreate}>New Payroll</button>
+          <button className="btn btn-ghost" onClick={exportCsv}>Export Payrolls into CSV</button>
+        </div>
+      </div>
+
       <Table
         columns={columns}
         data={rows}
         defaultSortKey="total_amount"
-        onCreate={openCreate}
-        createLabel="New Payroll"
+        // we render our own toolbar; keep Table simple
         actionsRenderer={(row) => (
           <div className="actions-wrap">
             <button className="btn btn-danger" onClick={() => remove(row)}>Delete</button>
