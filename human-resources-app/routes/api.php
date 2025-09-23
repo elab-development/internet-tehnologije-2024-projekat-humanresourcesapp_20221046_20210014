@@ -15,7 +15,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('my-salary', [SalaryController::class, 'mySalary']); 
 
     // Salary Routes
-    Route::apiResource('salaries', SalaryController::class);
+    Route::apiResource('salaries', SalaryController::class)->except(['update']);
+    Route::patch('salaries/{salary}/updateCurrencyAndAmount', [SalaryController::class, 'update']);
 
     // Bonus Routes
     Route::prefix('bonuses')->group(function () {
