@@ -9,6 +9,7 @@ use App\Models\Bonus;
 use Illuminate\Http\Request;
 use App\Http\Resources\PayslipResource;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PayslipController extends Controller
 {
@@ -107,6 +108,78 @@ class PayslipController extends Controller
         $user = Auth::user();
         $payslips = $user->payslips;
         return PayslipResource::collection($payslips);
+    }
+
+    /* HR can export all payslips as CSV.
+     * GET /api/payslips/export/csv
+     */
+    public function exportCsv(Request $request): StreamedResponse
+    {
+        $user = Auth::user();
+        if (!$user->isHr) {
+            return response()->json(['error' => 'Unauthorized! Only HR can export payslips.'], 403);
+        }
+
+        $filename = 'payslips_' . now()->format('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Cache-Control'       => 'no-store, no-cache',
+        ];
+
+        $callback = function () {
+            $out = fopen('php://output', 'w');
+
+            // UTF-8 BOM for Excel compatibility
+            fprintf($out, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // CSV header
+            fputcsv($out, [
+                'Payslip ID',
+                'Issue Date',
+                'Total Amount',
+                'User ID',
+                'User Name',
+                'User Email',
+                'Salary ID',
+                'Salary Amount',
+                'Salary Currency',
+                'Salary Date Issued',
+                'Bonus ID',
+                'Bonus Amount',
+                'Bonus Reason',
+                'Bonus Date Awarded',
+            ]);
+
+            // Pull data with relations
+            $payslips = Payslip::with(['user', 'salary', 'bonus'])
+                ->orderBy('issue_date', 'desc')
+                ->get();
+
+            foreach ($payslips as $p) {
+                fputcsv($out, [
+                    $p->id,
+                    $p->issue_date,
+                    $p->total_amount,
+                    optional($p->user)->id,
+                    optional($p->user)->name,
+                    optional($p->user)->email,
+                    optional($p->salary)->id,
+                    optional($p->salary)->amount,
+                    optional($p->salary)->currency,
+                    optional($p->salary)->date_issued,
+                    optional($p->bonus)->id,
+                    optional($p->bonus)->amount,
+                    optional($p->bonus)->reason,
+                    optional($p->bonus)->date_awarded,
+                ]);
+            }
+
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
 
